@@ -1,0 +1,57 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <meta http-equiv="Content-Security-Policy" content="default-src * data: gap: content: https://ssl.gstatic.com; style-src * 'unsafe-inline'; script-src * 'unsafe-inline' 'unsafe-eval'">
+  <script src="components/loader.js"></script>
+  <link rel="stylesheet" href="components/loader.css">
+  <link rel="stylesheet" href="css/style.css">
+  <script>
+    const WEB_VIEW_URL = "https://zenn.dev/toono_f"; // WebView対象サイトのURLを入力
+    const IOS_OPTION = "location=no,toolbar=no";
+    const ANDROID_OPTION = "location=no,zoom=no,fullscreen=no";
+
+    let inAppBrowser; // inAppBrowserの関連メソッドを実行するために用意
+    let inAppBrowserReopen; // システムブラウザを一度開いた後にも再度WebViewを実現するために用意
+
+    const webViewRunScript = (e) => {
+      // 表示するページのロード完了時にWebView側でScriptを実行する
+      e.addEventListener("loadstop", () =>
+        e.executeScript({
+          code: 'const sendMessegeToApp=(href)=>{const messageJson=JSON.stringify({url:href});if(window.webkit&&window.webkit.messageHandlers){window.webkit.messageHandlers.cordova_iab.postMessage(messageJson)}else{cordova_iab.postMessage(messageJson)}} const link=document.getElementsByTagName("a");for(let i=0;i<link.length;i++){link[i].addEventListener("click",(e)=>{if(link[i].hasAttribute("target")){e.preventDefault();sendMessegeToApp(link[i].getAttribute("href"))}})}',
+        })
+      );
+    };
+
+    const getMessageAction = (json) => {
+      // WebView内に外部リンクをクリックした時にシステムブラウザを開かせる
+      inAppBrowserReopen = cordova.InAppBrowser.open(json.data.url, "_system");
+      // システムブラウザを一度開いた後にも再度WebViewを実現するために用意
+      inAppBrowserReopen.addEventListener("message", getMessageAction);
+      webViewRunScript(inAppBrowserReopen);
+    };
+
+    document.addEventListener("deviceready", () => {
+      if (monaca.isIOS) {
+        inAppBrowser = cordova.InAppBrowser.open(WEB_VIEW_URL, "_blank", IOS_OPTION);
+      } else {
+        inAppBrowser = cordova.InAppBrowser.open(WEB_VIEW_URL, "_blank", ANDROID_OPTION);
+      }
+      inAppBrowser.addEventListener("message", getMessageAction);
+      webViewRunScript(inAppBrowser);
+
+      // push通知設定関連
+      // window.NCMB.monaca.setDeviceToken(
+      //   "YOUR_NCMB_APPLICATION_KEY", // mobile backendのアプリケーションキー
+      //   "YOUR_NCMB_CLIENT_KEY",  // mobile backendのクライアントキー
+      //   "YOUR_FCM_SENDER_ID"  // SenderID（登録Android端末の送信者ID）
+      // );
+    });
+  </script>
+</head>
+
+<body></body>
+
+</html>
