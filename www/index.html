@@ -29,8 +29,8 @@
       // WebView内に外部リンクをクリックした時にシステムブラウザを開かせる
       inAppBrowserReopen = cordova.InAppBrowser.open(json.data.url, "_system");
       // システムブラウザを一度開いた後にも再度WebViewを実現するために用意
-      inAppBrowserReopen.addEventListener("message", getMessageAction);
       webViewRunScript(inAppBrowserReopen);
+      inAppBrowserReopen.addEventListener("message", getMessageAction);
     };
 
     document.addEventListener("deviceready", () => {
@@ -39,15 +39,15 @@
       } else {
         inAppBrowser = cordova.InAppBrowser.open(WEB_VIEW_URL, "_blank", ANDROID_OPTION);
       }
-      inAppBrowser.addEventListener("message", getMessageAction);
       webViewRunScript(inAppBrowser);
+      inAppBrowser.addEventListener("message", getMessageAction);
 
       // push通知設定関連
       // window.NCMB.monaca.setDeviceToken(
-      //   "YOUR_NCMB_APPLICATION_KEY", // mobile backendのアプリケーションキー
-      //   "YOUR_NCMB_CLIENT_KEY",  // mobile backendのクライアントキー
+      //   "YOUR_NCMB_APPLICATION_KEY",
+      //   "YOUR_NCMB_CLIENT_KEY",
       // );
-    });
+    }, false);
   </script>
 </head>
 
