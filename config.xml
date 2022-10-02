@@ -11,7 +11,6 @@
   <preference name="SplashScreen" value="screen" />
   <preference name="AllowInlineMediaPlayback" value="false" />
   <preference name="BackupWebStorage" value="cloud" />
-  <preference name="FadeSplashScreenDuration" value="250" />
   <preference name="KeyboardDisplayRequiresUserAction" value="true" />
   <preference name="MediaTypesRequiringUserActionForPlayback" value="none" />
   <preference name="SuppressesIncrementalRendering" value="false" />
@@ -85,12 +84,13 @@
   <preference name="KeepRunning" value="true" />
   <preference name="monaca:AndroidIsPackageNameSeparate" value="false" />
   <preference name="Orientation" value="default" />
-  <preference name="SplashScreenDelay" value="0" />
   <preference name="Fullscreen" value="false" />
   <preference name="target-device" value="universal" />
-  <preference name="AutoHideSplashScreen" value="true" />
   <preference name="FadeSplashScreen" value="true" />
-  <preference name="ShowSplashScreenSpinner" value="false" />
   <preference name="DisallowOverscroll" value="true" />
   <preference name="EnableViewportScale" value="false" />
+  <preference name="ShowSplashScreenSpinner" value="false" /> <!-- スプラッシュスクリーン上にスピナーを表示させない -->
+  <preference name="SplashScreenDelay" value="0" /> <!-- スプラッシュスクリーンの非表示にするまでの時間 -->
+  <preference name="AutoHideSplashScreen" value="true" /> <!-- スプラッシュスクリーンを自動的に非表示にする -->
+  <preference name="FadeSplashScreenDuration" value="0" /> <!-- iosで、スプラッシュスクリーンを無効にする（画像の設定は必須） -->
 </widget>
