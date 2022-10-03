@@ -14,7 +14,7 @@
     const ANDROID_OPTION = "location=no,zoom=no,fullscreen=no";
 
     let inAppBrowser; // inAppBrowserの関連メソッドを実行するために用意
-    let inAppBrowserReopen; // システムブラウザを一度開いた後にも再度WebViewを実現するために用意
+    let inAppBrowserSystem; // システムブラウザを一度開いた後にも再度WebViewを実現するために用意
 
     const webViewRunScript = (e) => {
       // 表示するページのロード完了時にWebView側でScriptを実行する
@@ -27,10 +27,10 @@
 
     const getMessageAction = (json) => {
       // WebView内に外部リンクをクリックした時にシステムブラウザを開かせる
-      inAppBrowserReopen = cordova.InAppBrowser.open(json.data.url, "_system");
+      inAppBrowserSystem = cordova.InAppBrowser.open(json.data.url, "_system");
       // システムブラウザを一度開いた後にも再度WebViewを実現するために用意
-      webViewRunScript(inAppBrowserReopen);
-      inAppBrowserReopen.addEventListener("message", getMessageAction);
+      webViewRunScript(inAppBrowserSystem);
+      inAppBrowserSystem.addEventListener("message", getMessageAction);
     };
 
     document.addEventListener("deviceready", () => {
